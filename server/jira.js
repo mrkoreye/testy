@@ -49,6 +49,8 @@ Jira.getStandardJqlQueryString = function() {
     + Config.jira.mergedStatusName
     + ", '"
     + Config.jira.verifiedStatusName
+    + ", '"
+    + Config.jira.toDoStatusName
     + "')"
 
   return jqlQueryString;
@@ -263,6 +265,39 @@ Jira.verifyTicketOnDev = function(ticket) {
     transition: {
       id: 131
     }
+  }
+
+  Jira.makePostRequest(url, data);
+};
+
+Jira.reOpenAndCommentTicket = function(ticket, failReason) {
+  if (ticket.statusName === Config.jira.toDoStatusName) {
+    return;
+  }
+
+  if (ticket.isRegression) {
+    return;
+  }
+
+  var jiraId = ticket.jiraId
+  var url =  "issue/" + jiraId + "/transitions"
+  var data = {
+    transition: {
+      id: 201
+    }
+  }
+
+  Jira.makePostRequest(url, data);
+
+  if (!failReason) {
+    comments = "Tester did not provide comments."
+  } else {
+    comments = "Tester's comments: " + failReason
+  }
+
+  url = "issue/" + jiraId + "/comment"
+  data = {
+    body: "Re-opened by wrangler. " + comments
   }
 
   Jira.makePostRequest(url, data);

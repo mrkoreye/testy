@@ -7,7 +7,7 @@ Testscripts.allow({
 });
 
 Meteor.methods({
-  updateTicketStatus: function(ticket) {
+  updateTicketStatus: function(ticket, failReason) {
     var status = '';
     var passers = [];
     var failers = [];
@@ -68,6 +68,9 @@ Meteor.methods({
 
     if (failers[0] != undefined && failers.length > 0) {
       status = 'fail';
+      if (Meteor.isServer) {
+        Jira.reOpenAndCommentTicket(ticket, failReason);
+      }
     }
     else if (numPassers >= numTestersReq) {
       status = 'pass';
@@ -128,6 +131,6 @@ Meteor.methods({
         }
       });
     }
-    Meteor.call('updateTicketStatus', ticket);
+    Meteor.call('updateTicketStatus', ticket, failReason);
   }
 });
