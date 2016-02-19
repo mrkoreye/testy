@@ -45,11 +45,11 @@ Jira.getStandardJqlQueryString = function() {
   var versionTitle = Milestones.findOne({ current: true }).name;
   var jqlQueryString = "fixVersion IN ('"
     + versionTitle
-    + "') AND status IN ("
+    + "') AND status IN ('"
     + Config.jira.mergedStatusName
-    + ", '"
+    + "', '"
     + Config.jira.verifiedStatusName
-    + ", '"
+    + "', '"
     + Config.jira.toDoStatusName
     + "')"
 
