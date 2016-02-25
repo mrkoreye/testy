@@ -259,49 +259,57 @@ Jira.verifyTicketOnDev = function(ticket) {
     return;
   }
 
-  var jiraId = ticket.jiraId
-  var url =  "issue/" + jiraId + "/transitions"
+  var jiraId = ticket.jiraId;
+  var url =  "issue/" + jiraId + "/transitions";
+  // Perform transition id 131, aka "Verify" action
   var data = {
     transition: {
       id: 131
     }
-  }
+  };
 
   Jira.makePostRequest(url, data);
 };
 
-Jira.reOpenAndCommentTicket = function(ticket, failReason) {
+Jira.reOpenTicket = function(ticket, failReason) {
+  var comments = "Failed by wrangler. ";
+
   if (ticket.statusName === Config.jira.toDoStatusName) {
-    return;
-  }
+    // Don't re-open ticket if it's already re-opened. 
+    // Don't return from this function just yet, since we still want to comment 
+    //  on the ticket with the failreason, about it being re-opened/failed on wrangler.
+  } else {
 
-  if (ticket.isRegression) {
-    return;
-  }
+    var jiraId = ticket.jiraId;
+    var url =  "issue/" + jiraId + "/transitions";
+    // Perform transition id 201, aka "Reopen" action
+    var data = {
+      transition: {
+        id: 201
+      }
+    };
 
-  var jiraId = ticket.jiraId
-  var url =  "issue/" + jiraId + "/transitions"
-  var data = {
-    transition: {
-      id: 201
-    }
+    Jira.makePostRequest(url, data);
   }
-
-  Jira.makePostRequest(url, data);
 
   if (!failReason) {
-    comments = "Tester did not provide comments."
+    comments += "Tester did not provide comments.";
   } else {
-    comments = "Tester's comments: " + failReason
+    comments += "Tester's comments: " + failReason;
   }
 
-  url = "issue/" + jiraId + "/comment"
-  data = {
-    body: "Re-opened by wrangler. " + comments
-  }
+  Jira.commentTicket(ticket, comments);
+};
+
+Jira.commentTicket = function(ticket, comment) {
+  var jiraId = ticket.jiraId;
+  var url = "issue/" + jiraId + "/comment";
+  var data = {
+    body: comment
+  };
 
   Jira.makePostRequest(url, data);
-};
+}
 
 if (Meteor.isServer) {
   Meteor.startup(function() {

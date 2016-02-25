@@ -6,6 +6,7 @@ Testscripts.allow({
   }
 });
 
+
 Meteor.methods({
   updateTicketStatus: function(ticket, failReason) {
     var status = '';
@@ -54,8 +55,7 @@ Meteor.methods({
         completedCounts[elem] = 1;
       }
       else {
-        completedCounts[elem] += 1;
-      }
+        completedCounts[elem] += 1; }
     });
 
     for (var key in completedCounts) {
@@ -68,9 +68,6 @@ Meteor.methods({
 
     if (failers[0] != undefined && failers.length > 0) {
       status = 'fail';
-      if (Meteor.isServer) {
-        Jira.reOpenAndCommentTicket(ticket, failReason);
-      }
     }
     else if (numPassers >= numTestersReq) {
       status = 'pass';
@@ -131,6 +128,22 @@ Meteor.methods({
         }
       });
     }
+    Meteor.call('updateTicketStatus', ticket, failReason);
+  },
+
+  reOpenAndCommentTicket: function(id, failReason) {
+    var user = Meteor.user();
+    if (!user) {
+      throw new Meteor.Error(401, "You need to login to post test results");
+    }
+
+    var testscript = Testscripts.findOne(id);
+    var ticket = Tickets.findOne({ jiraId: testscript.ticketJiraId });
+
+    if (Meteor.isServer) {
+      Jira.reOpenTicket(ticket, failReason);
+    }
+
     Meteor.call('updateTicketStatus', ticket, failReason);
   }
 });
