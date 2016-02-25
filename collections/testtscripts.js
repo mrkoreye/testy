@@ -8,7 +8,7 @@ Testscripts.allow({
 
 
 Meteor.methods({
-  updateTicketStatus: function(ticket, failReason) {
+  updateTicketStatus: function(ticket) {
     var status = '';
     var passers = [];
     var failers = [];
@@ -55,7 +55,8 @@ Meteor.methods({
         completedCounts[elem] = 1;
       }
       else {
-        completedCounts[elem] += 1; }
+        completedCounts[elem] += 1; 
+      }
     });
 
     for (var key in completedCounts) {
@@ -128,7 +129,7 @@ Meteor.methods({
         }
       });
     }
-    Meteor.call('updateTicketStatus', ticket, failReason);
+    Meteor.call('updateTicketStatus', ticket);
   },
 
   reOpenAndCommentTicket: function(id, failReason) {
@@ -139,11 +140,17 @@ Meteor.methods({
 
     var testscript = Testscripts.findOne(id);
     var ticket = Tickets.findOne({ jiraId: testscript.ticketJiraId });
+    var comments = "Failed by wrangler. ";
 
     if (Meteor.isServer) {
-      Jira.reOpenTicket(ticket, failReason);
-    }
+      Jira.reOpenTicket(ticket);
 
-    Meteor.call('updateTicketStatus', ticket, failReason);
+      if (!failReason) {
+        comments += "Tester did not provide comments.";
+      } else {
+        comments += "Tester's comments: " + failReason;
+      }
+      Jira.commentTicket(ticket, comments)
+    }
   }
 });

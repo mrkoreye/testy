@@ -271,14 +271,9 @@ Jira.verifyTicketOnDev = function(ticket) {
   Jira.makePostRequest(url, data);
 };
 
-Jira.reOpenTicket = function(ticket, failReason) {
-  var comments = "Failed by wrangler. ";
-
-  if (ticket.statusName === Config.jira.toDoStatusName) {
-    // Don't re-open ticket if it's already re-opened. 
-    // Don't return from this function just yet, since we still want to comment 
-    //  on the ticket with the failreason, about it being re-opened/failed on wrangler.
-  } else {
+Jira.reOpenTicket = function(ticket) {
+  // Don't re-open ticket if it's already re-opened (in the to do state). 
+  if (ticket.statusName !== Config.jira.toDoStatusName) { 
 
     var jiraId = ticket.jiraId;
     var url =  "issue/" + jiraId + "/transitions";
@@ -291,17 +286,10 @@ Jira.reOpenTicket = function(ticket, failReason) {
 
     Jira.makePostRequest(url, data);
   }
-
-  if (!failReason) {
-    comments += "Tester did not provide comments.";
-  } else {
-    comments += "Tester's comments: " + failReason;
-  }
-
-  Jira.commentTicket(ticket, comments);
 };
 
 Jira.commentTicket = function(ticket, comment) {
+
   var jiraId = ticket.jiraId;
   var url = "issue/" + jiraId + "/comment";
   var data = {
