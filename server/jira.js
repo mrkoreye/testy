@@ -11,7 +11,8 @@ Jira = {
   // 'project/BE/versions' is used because versions are specific to projects.
   // PM's keep all versions on all prjects, so we just hit the BE project endpoint
   // and get its versions, which should be shopstyle wide
-  milestonesUrl: 'project/BE/versions',
+  // This needs to be updated for PopSugar
+  milestonesUrl: 'project/PSMH/versions',
   usersUrl: 'group',
   ticketUrl: 'search',
   testscriptCustomField: 'customfield_10111',
