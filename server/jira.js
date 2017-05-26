@@ -12,7 +12,7 @@ Jira = {
   // PM's keep all versions on all prjects, so we just hit the BE project endpoint
   // and get its versions, which should be shopstyle wide
   // This needs to be updated for PopSugar
-  milestonesUrl: 'project/PSMH/versions',
+  milestonesUrl: 'project/PSAPP/versions',
   usersUrl: 'group',
   ticketUrl: 'search',
   testscriptCustomField: 'customfield_10111',
