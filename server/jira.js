@@ -119,7 +119,7 @@ Jira.updateSingleTicket = function(ticket) {
 
   Jira.updateTestscripts(ticket);
 
-  var jiraUrl = 'https://shopstyle.atlassian.net/browse/' + ticket.key;
+  var jiraUrl = 'https://popsugar.atlassian.net/browse/' + ticket.key;
   var statusName = ticket.fields.status.name;
   var jiraId = parseInt(ticket.id);
   if (statusName === Config.jira.verifiedStatusName) {

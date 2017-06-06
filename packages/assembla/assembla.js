@@ -1,9 +1,9 @@
 Assembla = {
-  milestonesUrl: 'https://api.assembla.com/v1/spaces/shopstyle/milestones/upcoming.json',
-  ticketsUrl: 'https://api.assembla.com/v1/spaces/shopstyle/tickets/milestone/',
-  usersUrl: 'https://api.assembla.com/v1/spaces/shopstyle/users.json',
-  assemblaUrl: 'https://www.assembla.com/spaces/shopstyle/tickets/',
-  ticketUrl: 'https://api.assembla.com/v1/spaces/shopstyle/tickets/',
+  milestonesUrl: 'https://api.assembla.com/v1/spaces/popsugar/milestones/upcoming.json',
+  ticketsUrl: 'https://api.assembla.com/v1/spaces/popsugar/tickets/milestone/',
+  usersUrl: 'https://api.assembla.com/v1/spaces/popsugar/users.json',
+  assemblaUrl: 'https://www.assembla.com/spaces/popsugar/tickets/',
+  ticketUrl: 'https://api.assembla.com/v1/spaces/popsugar/tickets/',
   testscriptsAndcommentRegex: /TESTING([\s\S]*)END/,
   commentRegex: /COMMENTS([\s\S]*?)(?=TESTSCRIPT)/,
   testscriptsRegex: /TESTSCRIPT([\s\S]*)/,
@@ -233,7 +233,7 @@ Assembla.watchTicketStream = function() {
     if (date < lastTime) {
       return;
     }
-    if (item.ticket && item.author_name !== "shopstylebot") {
+    if (item.ticket && item.author_name !== "popsugarbot") {
       var url = Assembla.ticketUrl + item.ticket.number + '.json';
       var ticket = Assembla.makeGetRequest(url, {});
       Assembla.updateSingleTicket(ticket.data);
