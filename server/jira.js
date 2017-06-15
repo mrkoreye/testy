@@ -12,7 +12,7 @@ Jira = {
   // PM's keep all versions on all prjects, so we just hit the BE project endpoint
   // and get its versions, which should be shopstyle wide
   // This needs to be updated for PopSugar
-  milestonesUrl: 'project/PAP/versions',
+  milestonesUrl: 'project/TTP/versions',
   usersUrl: 'group',
   ticketUrl: 'search',
   testscriptCustomField: 'customfield_10111',
@@ -47,7 +47,7 @@ Jira.getStandardJqlQueryString = function() {
   var jqlQueryString = "fixVersion IN ('"
     + versionTitle
     + "') AND status IN ('"
-    + Config.jira.mergedStatusName
+    + Config.jira.testStatusName
     + "', '"
     + Config.jira.verifiedStatusName
     + "', '"
@@ -265,7 +265,7 @@ Jira.verifyTicketOnDev = function(ticket) {
   // Perform transition id 131, aka "Verify" action
   var data = {
     transition: {
-      id: 131
+      id: 31
     }
   };
 
@@ -286,7 +286,7 @@ Jira.reOpenTicket = function(ticket) {
     // Perform transition id 201, aka "Reopen" action
     var data = {
       transition: {
-        id: 201
+        id: 11
       }
     };
 
