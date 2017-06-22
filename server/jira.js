@@ -265,7 +265,7 @@ Jira.verifyTicketOnDev = function(ticket) {
   // Perform transition id 131, aka "Verify" action
   var data = {
     transition: {
-      id: 31
+      id: 111
     }
   };
 
