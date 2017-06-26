@@ -47,7 +47,7 @@ Jira.getStandardJqlQueryString = function() {
   var jqlQueryString = "fixVersion IN ('"
     + versionTitle
     + "') AND status IN ('"
-    + Config.jira.testStatusName
+    + Config.jira.mergedStatusName
     + "', '"
     + Config.jira.verifiedStatusName
     + "', '"
