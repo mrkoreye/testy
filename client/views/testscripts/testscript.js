@@ -1,3 +1,21 @@
+Template.testscript.rendered = function(){
+    if (!this.rendered) {
+        this.findAll('.testscript-steps').forEach(function(html) {
+            var new_html = html.innerHTML.replace(/(((ftp|https?|http?|www.?):\/\/)[\-\w@:%_\+.~#;?,&\/\/=]+)/g, function(text, link) {
+                var real_link = link.replace(",","");
+                link = link.replace(/^(.*)(?:musthave\.local\.onsugar\.)(.*)/, '$1musthaveqa.popsugar.$2');
+                if (real_link[real_link.length-1] === ".") real_link = real_link.slice(0,-1);
+                real_link = real_link.replace(/^(.*)(?:musthave\.local\.onsugar\.)(.*)/, '$1musthaveqa.popsugar.$2');
+                return '<a href="'+ real_link +'" target="_blank">'+ link +'</a>';
+            });
+
+            html.innerHTML = new_html;
+        });
+
+        this.rendered = true;
+    }
+
+};
 Template.testscript.events({
   'click .failure-reason-cancel': function(e) {
     failReason = $(e.currentTarget).parents('.failure-reason');

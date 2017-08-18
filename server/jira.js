@@ -11,7 +11,8 @@ Jira = {
   // 'project/BE/versions' is used because versions are specific to projects.
   // PM's keep all versions on all prjects, so we just hit the BE project endpoint
   // and get its versions, which should be shopstyle wide
-  milestonesUrl: 'project/BE/versions',
+  // This needs to be updated for PopSugar
+  milestonesUrl: 'project/TTP/versions',
   usersUrl: 'group',
   ticketUrl: 'search',
   testscriptCustomField: 'customfield_10111',
@@ -118,7 +119,7 @@ Jira.updateSingleTicket = function(ticket) {
 
   Jira.updateTestscripts(ticket);
 
-  var jiraUrl = 'https://shopstyle.atlassian.net/browse/' + ticket.key;
+  var jiraUrl = 'https://popsugar.atlassian.net/browse/' + ticket.key;
   var statusName = ticket.fields.status.name;
   var jiraId = parseInt(ticket.id);
   if (statusName === Config.jira.verifiedStatusName) {
@@ -264,7 +265,7 @@ Jira.verifyTicketOnDev = function(ticket) {
   // Perform transition id 131, aka "Verify" action
   var data = {
     transition: {
-      id: 131
+      id: 111
     }
   };
 
@@ -285,7 +286,7 @@ Jira.reOpenTicket = function(ticket) {
     // Perform transition id 201, aka "Reopen" action
     var data = {
       transition: {
-        id: 201
+        id: 11
       }
     };
 
